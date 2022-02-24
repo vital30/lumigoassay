@@ -1,0 +1,50 @@
+
+    <div class="search">
+        <input type="text" [(ngModel)]="filterTerm" class="searchTerm" placeholder="What are you looking for?">
+      </div>
+<div class="container">
+
+
+    <div class="filter" >
+        <label>Filter by Price</label>
+        <input type="checkbox" *ngFor ="let chb of ChBList; let i = index" name="100" (change)="onCheckboxChange($event)" value="{{chb.name}}"/>
+    
+        <label>Filter by Rating</label>
+        <input type="checkbox" *ngFor ="let chb of ChBRating; let i = index" name="rating" (change)="onCheckboxChangeRating($event)" value="{{chb.name}}"/>
+
+    </div>
+
+    <div class="content">
+
+        <div class="productsContent" *ngFor ="let pr of filteredProducts | filter:filterTerm; let i = index">
+            <img src="{{pr.image}}"/>
+            <div class="price">
+                <span class="rating"></span>
+                <span class="price">{{pr.price}}$</span>
+            </div>
+            <div class="desc">
+                <span class="title">{{pr.title}}</span>
+                <span class="description">{{pr.description}}</span>
+            </div>
+            <select  #count>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+
+            <button (click)="addToCart(pr, count.value)">Add To Cart</button>
+        </div>
+    </div>
+
+    <div class="cart" *ngIf="inCartProducts.length">
+        <h2>Cart</h2>
+        <div *ngFor ="let incartpr of inCartProducts; let i = index" class="cartdetails"><span class="carttitle">{{incartpr.title}}</span> 
+            <span class="count">X {{incartpr.count || 1}}</span>  <span class="totalprice"> {{incartpr.price*incartpr.count || incartpr.price}}</span>
+
+            <a class="removeFromCart" (click)="removeFromCart(incartpr)">X</a>
+        </div>
+    </div>
+
+</div>
